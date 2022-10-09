@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @ConfigurationProperties
-public class SplitBunqConfiguration {
+public class BunqClientApplicationConfig {
 
   @Value("${bunq.apikey}")
   private String bunqApiKey;
@@ -22,7 +21,7 @@ public class SplitBunqConfiguration {
 
   @Bean
   public List<BunqPaymentSubscriber> subscriberList() {
-    return List.of(new BunqDataPrinterSubscriber(splitwiseClient()));
+    return List.of(new BunqDataPrinterSubscriber());
   }
 
   @Bean
@@ -30,8 +29,4 @@ public class SplitBunqConfiguration {
     return BunqClient.builder().apiKey(bunqApiKey).build();
   }
 
-  @Bean
-  public SplitwiseClient splitwiseClient() {
-    return new SplitwiseClient(WebClient.create(), splitwiseApiKey);
-  }
 }

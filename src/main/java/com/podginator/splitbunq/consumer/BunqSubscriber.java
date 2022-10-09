@@ -18,8 +18,7 @@ public class BunqSubscriber {
     subscribeConsumers(consumers);
   }
 
-  private void subscribeConsumers(final List<BunqPaymentSubscriber> consumers)
-      throws InterruptedException {
+  private void subscribeConsumers(final List<BunqPaymentSubscriber> consumers)  {
     final Flux<MasterCardAction> tweetDataFlux =
         bunqReactiveService.streamCardPaymentsFromAllAccounts();
     consumers.forEach(twitterConsumer -> twitterConsumer.consumeDataStream(tweetDataFlux));

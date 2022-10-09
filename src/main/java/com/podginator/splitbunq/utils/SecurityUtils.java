@@ -91,4 +91,18 @@ public class SecurityUtils {
 
     return chunkList;
   }
+
+  public static boolean validateEquality(String expected, String encrypted, PublicKey publicKey) {
+    try {
+      var signature = Signature.getInstance("SHA256withRSA");
+
+      signature.initVerify(publicKey);
+      signature.update(expected.getBytes(StandardCharsets.UTF_8));
+
+      return signature.verify(Base64.getDecoder().decode(encrypted));
+    } catch (Exception e) {
+      // Log Error
+      return false;
+    }
+  }
 }

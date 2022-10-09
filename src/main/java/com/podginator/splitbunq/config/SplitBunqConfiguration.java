@@ -1,9 +1,8 @@
 package com.podginator.splitbunq.config;
 
 import com.podginator.splitbunq.client.BunqClient;
-import com.podginator.splitbunq.client.SplitwiseClient;
 import com.podginator.splitbunq.consumer.BunqPaymentSubscriber;
-import com.podginator.splitbunq.consumer.BunqSplitwiseSubscriber;
+import com.podginator.splitbunq.consumer.BunqDataPrinterSubscriber;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -23,12 +22,12 @@ public class SplitBunqConfiguration {
 
   @Bean
   public List<BunqPaymentSubscriber> subscriberList() {
-    return List.of(new BunqSplitwiseSubscriber(splitwiseClient()));
+    return List.of(new BunqDataPrinterSubscriber(splitwiseClient()));
   }
 
   @Bean
   public BunqClient bunqClient() {
-    return BunqClient.create(bunqApiKey);
+    return BunqClient.builder().apiKey(bunqApiKey).build();
   }
 
   @Bean

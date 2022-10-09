@@ -14,6 +14,9 @@ public class BunqResponses<T> {
   @JsonProperty("Response")
   private List<T> responses;
 
+  @JsonProperty("Pagination")
+  private BunqPagination pagination;
+
   public T mergeAll() {
     return JacksonUtils.mergeAll(this.responses);
   }

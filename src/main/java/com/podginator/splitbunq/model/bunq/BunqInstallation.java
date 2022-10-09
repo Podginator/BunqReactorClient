@@ -20,6 +20,8 @@ public class BunqInstallation {
 
   @Data
   @NoArgsConstructor
+  @AllArgsConstructor
+  @Builder
   public static class Token {
     private String id;
     private String created;
@@ -29,6 +31,8 @@ public class BunqInstallation {
 
   @Data
   @NoArgsConstructor
+  @Builder
+  @AllArgsConstructor
   public static class ServerPublicKey {
     @JsonProperty("server_public_key")
     private String serverPublicKey;

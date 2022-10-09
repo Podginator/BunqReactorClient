@@ -4,6 +4,8 @@ import com.podginator.splitbunq.client.BunqClient;
 import com.podginator.splitbunq.model.bunq.BunqId;
 import com.podginator.splitbunq.model.bunq.MasterCardAction;
 import java.time.Duration;
+
+import com.podginator.splitbunq.model.bunq.Payment;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
@@ -43,16 +45,20 @@ public class BunqReactiveService {
 
   public Flux<com.podginator.splitbunq.model.bunq.MasterCardAction> getCardPaymentsFromAccount(
       final Integer accountId) {
-    return bunqClient.getCardPaymentsFromMonetaryAccountId(accountId);
+    return bunqClient.getCardPayments(accountId);
+  }
+
+  public Flux<Payment> getPaymentsFromAccount(
+          final Integer accountId) {
+    return bunqClient.getPayments(accountId);
   }
 
   public Flux<MasterCardAction> streamCardPaymentsFromAllAccounts() {
     final var accountsCached =
         getActiveMonetaryAccounts().cache(Duration.ofDays(1), Schedulers.boundedElastic());
 
-    return Flux.interval(Duration.ofSeconds(5))
-        .switchMap(it -> accountsCached)
-        .concatMap(it -> getCardPaymentsFromAccount(it.getId()))
-        .distinct(MasterCardAction::getId);
+        return Flux.interval(Duration.ofSeconds(5))
+            .switchMap(it -> accountsCached)
+            .concatMap(it -> getCardPaymentsFromAccount(it.getId()));
   }
 }

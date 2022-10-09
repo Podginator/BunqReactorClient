@@ -5,7 +5,7 @@ plugins {
 	id "com.github.sherter.google-java-format" version "0.9"
 }
 
-group = 'com.podginator.splitbunq'
+group = 'com.podginator.bunqclient'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
